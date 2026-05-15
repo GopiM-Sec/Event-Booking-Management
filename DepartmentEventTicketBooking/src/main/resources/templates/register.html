@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join EventSphere | Registration</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <style>
+        .auth-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 4rem 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .auth-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--glass-border);
+            padding: 3.5rem;
+            width: 100%;
+            max-width: 600px;
+            box-shadow: var(--shadow-xl);
+            z-index: 10;
+        }
+        .auth-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+        .auth-footer {
+            text-align: center;
+            margin-top: 2rem;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+        .auth-footer a {
+            color: var(--primary);
+            font-weight: 700;
+            text-decoration: none;
+        }
+        .register-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <div style="position: absolute; width: 500px; height: 500px; background: var(--primary); border-radius: 50%; top: -200px; left: -100px; opacity: 0.1; filter: blur(80px);"></div>
+        <div style="position: absolute; width: 400px; height: 400px; background: var(--secondary); border-radius: 50%; bottom: -150px; right: -150px; opacity: 0.1; filter: blur(80px);"></div>
+
+        <div class="auth-card animate-fade">
+            <div class="auth-header">
+                <h1 style="font-size: 2.25rem; margin-bottom: 0.5rem; letter-spacing: -0.03em;">Create Account</h1>
+                <p style="color: var(--text-muted);">Join our department community today</p>
+            </div>
+
+            <div th:if="${error}" class="alert alert-danger" style="font-size: 0.85rem;" th:text="${error}"></div>
+
+            <form th:action="@{/register}" th:object="${user}" method="post">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                <div class="register-grid">
+                    <div class="form-group" style="grid-column: span 2;">
+                        <label>Full Name</label>
+                        <input type="text" th:field="*{fullName}" class="form-control" placeholder="John Doe" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Username</label>
+                        <input type="text" th:field="*{username}" class="form-control" placeholder="johndoe123" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Corporate Email</label>
+                        <input type="email" th:field="*{email}" class="form-control" placeholder="john@company.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" th:field="*{password}" class="form-control" placeholder="••••••••" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Account Role</label>
+                        <select th:field="*{role}" class="form-control" required>
+                            <option value="ROLE_USER">Standard Member</option>
+                            <option value="ROLE_ADMIN">Department Admin</option>
+                        </select>
+                        <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.5rem;">Admin role grant access to dashboard</p>
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn btn-primary" style="width: 100%; padding: 1rem; margin-top: 1.5rem;">
+                    Get Started
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                </button>
+            </form>
+
+            <div class="auth-footer">
+                Already have an account? <a href="/login">Sign in</a>
+            </div>
+        </div>
+    </div>
+
+    <div th:insert="~{chatbot :: chatbotWidget}"></div>
+</body>
+</html>

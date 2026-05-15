@@ -1,0 +1,23 @@
+<div th:fragment="chatbotWidget">
+    <div id="chatbot-widget">
+        <button id="chatbot-toggle" type="button">
+            <span class="chatbot-logo">OP</span>
+            <span class="chatbot-label">OP Chat</span>
+        </button>
+
+        <div id="chatbot-window" aria-hidden="true">
+            <div id="chatbot-header">
+                <span>OP Assistant</span>
+                <button id="chatbot-close" type="button" aria-label="Close chat">×</button>
+            </div>
+
+            <div id="chatbot-messages" role="log" aria-live="polite"></div>
+
+            <form id="chatbot-form">
+                <input id="chatbot-input" type="text" placeholder="Ask about events, booking, or tickets..." aria-label="Chat message" autocomplete="off">
+                <button id="chatbot-send" type="submit">Send</button>
+            </form>
+        </div>
+    </div>
+    <script th:src="@{/js/chatbot.js}"></script>
+</div>

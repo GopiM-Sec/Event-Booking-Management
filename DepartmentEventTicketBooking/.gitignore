@@ -1,0 +1,73 @@
+# ============================================================
+# SENSITIVE CONFIGURATION - NEVER COMMIT
+# ============================================================
+# Contains real credentials: email password, API keys
+src/main/resources/application.properties
+
+# ============================================================
+# PERSONAL / MACHINE-SPECIFIC FILES
+# These contain absolute paths with your Windows username
+# ============================================================
+run.args
+runargs.txt
+classpath.txt
+
+# ============================================================
+# BUILD ARTIFACTS
+# ============================================================
+target/
+*.class
+*.jar
+*.war
+*.ear
+
+# ============================================================
+# RUNTIME LIBRARIES
+# Maven downloads these automatically via pom.xml
+# ============================================================
+runlib/
+launcher.jar
+run.bat
+
+# ============================================================
+# ECLIPSE IDE FILES
+# ============================================================
+.classpath
+.project
+.factorypath
+.settings/
+manifest-tmp/
+
+# ============================================================
+# INTELLIJ IDEA FILES
+# ============================================================
+.idea/
+*.iws
+*.iml
+*.ipr
+out/
+
+# ============================================================
+# VS CODE FILES
+# ============================================================
+.vscode/
+
+# ============================================================
+# SPRING BOOT / APPLICATION LOGS
+# ============================================================
+*.log
+logs/
+spring.log
+
+# ============================================================
+# MAVEN WRAPPER (keep if present, ignore if not)
+# ============================================================
+!.mvn/wrapper/maven-wrapper.jar
+!.mvn/wrapper/maven-wrapper.properties
+
+# ============================================================
+# OPERATING SYSTEM FILES
+# ============================================================
+.DS_Store
+Thumbs.db
+desktop.ini

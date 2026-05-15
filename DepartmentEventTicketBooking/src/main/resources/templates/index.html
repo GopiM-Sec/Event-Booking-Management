@@ -1,0 +1,97 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Events Portfolio | Department Booking</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <nav class="navbar">
+        <a href="/" class="nav-logo">
+            <div style="width: 40px; height: 40px; background: var(--primary); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+            </div>
+            EventSphere
+        </a>
+        <div class="nav-links">
+            <a href="/" class="active">Browse Events</a>
+            <a href="/admin/dashboard" sec:authorize="hasRole('ADMIN')">Admin Panel</a>
+            
+            <!-- Conditional Auth Links -->
+            <div sec:authorize="isAnonymous()" style="display: flex; gap: 1.5rem; align-items: center; margin-left: 1rem; border-left: 1px solid var(--border); padding-left: 1.5rem;">
+                <a href="/login">Login</a>
+                <a href="/register" class="btn btn-secondary" style="padding: 0.5rem 1rem; font-size: 0.85rem;">Sign Up</a>
+            </div>
+            
+            <div sec:authorize="isAuthenticated()" style="display: flex; gap: 1.5rem; align-items: center; margin-left: 1rem; border-left: 1px solid var(--border); padding-left: 1.5rem;">
+                <span style="font-size: 0.85rem; font-weight: 700; color: var(--text-main);">
+                    Hi, <span sec:authentication="name">User</span>
+                </span>
+                <a href="/logout" style="color: var(--error);">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <section class="hero animate-fade">
+            <span class="badge badge-primary">Department Portal</span>
+            <h1>Discover Internal Events</h1>
+            <p>Connect with your colleagues through seminars, workshops, and social gatherings happening in your department.</p>
+        </section>
+
+        <div class="event-grid">
+            <!-- Event Card Loop -->
+            <div th:each="event : ${events}" class="card animate-fade" th:classappend="${event.availableTickets == 0} ? 'sold-out' : ''">
+                <div class="card-header"></div>
+                <div class="card-body">
+                    <span class="badge badge-primary" th:text="${event.department}">Department</span>
+                    <a th:href="@{/event/{id}(id=${event.id})}" style="text-decoration: none; color: inherit;">
+                        <h2 class="card-title" th:text="${event.name}">Event Name</h2>
+                    </a>
+                    
+                    <div class="card-meta">
+                        <div class="meta-item">
+                            <span class="meta-label">Venue</span>
+                            <span class="meta-value" th:text="${event.venue}">Venue</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">Schedule</span>
+                            <span class="meta-value" th:text="${event.date}">Date</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">Time</span>
+                            <span class="meta-value" th:text="${event.time}">10:00 AM</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">Remaining</span>
+                            <span class="meta-value" th:text="${event.availableTickets} + '/' + ${event.totalTickets}">50/50</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card-footer">
+                    <div class="price-tag">
+                        <span style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">Price</span>
+                        <div style="font-size: 1.5rem; font-weight: 800; color: var(--text-main);" th:text="${event.ticketPrice == 0 ? 'FREE' : '₹' + event.ticketPrice}">₹250</div>
+                    </div>
+                    <a th:href="@{/booking(eventId=${event.id})}" class="btn btn-primary" th:if="${event.availableTickets > 0}">
+                        Book Spot
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Power Toggle System -->
+    <div id="power-toggle">
+        <div class="power-lamp" id="powerLamp">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2C13.1 2 14 2.9 14 4V5H16V7H13V19H16V21H8V19H11V7H8V5H10V4C10 2.9 10.9 2 12 2M12 4V5H12V4Z"/>
+            </svg>
+        </div>
+    </div>
+
+    <div th:insert="~{chatbot :: chatbotWidget}"></div>
+    <script th:src="@{/js/script.js}"></script>
+</body>
+</html>
